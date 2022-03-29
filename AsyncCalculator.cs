@@ -15,8 +15,6 @@ public class AsyncCalculator
     private RingBuffer<CalculatorEvent>? ringBuffer;
     private ISequenceBarrier? sequenceBarrier;
 
-    public string Metrics => metricsBuilder.ToString();
-
     public void Start()
     {
         ringBuffer = StartDisruptor();
@@ -47,7 +45,7 @@ public class AsyncCalculator
         }
     }
 
-    public void WriteMetrics()
+    public void AwaitEventsProcessing()
     {
         if (ringBuffer == null)
             throw new InvalidOperationException("AsyncCalculator.Start() must be called");
@@ -58,7 +56,10 @@ public class AsyncCalculator
         {
             Thread.Sleep(200);
         }
+    }
 
+    public void WriteMetrics()
+    {
         Console.Out.WriteAsync(metricsBuilder);
     }
 
@@ -67,11 +68,10 @@ public class AsyncCalculator
         var disruptor = new Disruptor<CalculatorEvent>(() => new CalculatorEvent(), RingBufferSize);
 
         sequenceBarrier = disruptor
-            .HandleEventsWithWorkerPool(new ThreadSleepHandler())
-            .ThenHandleEventsWithWorkerPool(new CalculatorEventHandlerMetricsDecorator(
-                new CalculatorEventProcessingHandler(),
-                metricsBuilder
-            ))
+            .HandleEventsWithWorkerPool(
+                new CalculatorEventHandlerMetricsDecorator(new ThreadSleepHandler(), metricsBuilder))
+            .ThenHandleEventsWithWorkerPool(
+                new CalculatorEventHandlerMetricsDecorator(new CalculatorEventProcessingHandler(), metricsBuilder))
             .AsSequenceBarrier();
 
         return disruptor.Start();

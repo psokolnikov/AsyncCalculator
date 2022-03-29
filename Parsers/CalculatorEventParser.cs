@@ -38,8 +38,5 @@ public class CalculatorEventParser
 
             propertiesParsers[i](propertyStringValues[i], target);
         }
-
-        target.CreatedDateTimeUtc = ApplicationController.CurrentDateTimeUtc;
-        target.ProcessedDateTimeUtc = null;
     }
 }

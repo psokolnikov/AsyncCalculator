@@ -11,9 +11,4 @@ public static class TimeMeasurer
         timer.Stop();
         return (long)timer.Elapsed.TotalMilliseconds;
     }
-
-    public static long GetTimeInMilliseconds(DateTime start, DateTime finish)
-    {
-        return (long)(finish - start).TotalMilliseconds;
-    }
 }

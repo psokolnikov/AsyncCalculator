@@ -22,7 +22,5 @@ public class CalculatorEventProcessingHandler : IWorkHandler<CalculatorEvent>
         resultBuilder.AppendFormat(ResultTemplate, calculatorEvent.OperationId, code, result).AppendLine();
 
         Console.Out.WriteAsync(resultBuilder);
-
-        calculatorEvent.ProcessedDateTimeUtc = ApplicationController.CurrentDateTimeUtc;
     }
 }
