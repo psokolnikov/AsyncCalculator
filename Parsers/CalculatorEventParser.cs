@@ -1,5 +1,5 @@
+using AsyncCalculator.CalculatorOperationTypes;
 using AsyncCalculator.Events;
-using AsyncCalculator.Parsers.CalculatorOperationTypes;
 
 namespace AsyncCalculator.Parsers;
 
@@ -39,6 +39,7 @@ public class CalculatorEventParser
             propertiesParsers[i](propertyStringValues[i], target);
         }
 
-        target.CreatedAt = ApplicationController.CurrentDateTimeUtc;
+        target.CreatedDateTimeUtc = ApplicationController.CurrentDateTimeUtc;
+        target.ProcessedDateTimeUtc = null;
     }
 }

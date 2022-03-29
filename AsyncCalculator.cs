@@ -1,3 +1,4 @@
+using System.Text;
 using AsyncCalculator.Events;
 using AsyncCalculator.Handlers;
 using Disruptor;
@@ -10,7 +11,11 @@ public class AsyncCalculator
     private const int MaxCommandsCount = 3;
     private const int RingBufferSize = 16;
 
-    private RingBuffer<CalculatorEvent[]>? ringBuffer;
+    private readonly StringBuilder metricsBuilder = new();
+    private RingBuffer<CalculatorEvent>? ringBuffer;
+    private ISequenceBarrier? sequenceBarrier;
+
+    public string Metrics => metricsBuilder.ToString();
 
     public void Start()
     {
@@ -31,23 +36,44 @@ public class AsyncCalculator
         if (!arguments.Any())
             return;
 
-        var sequenceNo = ringBuffer.Next();
-        var targetEvents = ringBuffer[sequenceNo];
+        foreach (var argument in arguments)
+        {
+            var sequenceNo = ringBuffer.Next();
+            var targetEvent = ringBuffer[sequenceNo];
 
-        ApplicationController.CalculatorEventsParser!.TryParse(arguments, targetEvents);
+            ApplicationController.CalculatorEventParser.TryParse(argument, targetEvent);
 
-        ringBuffer.Publish(sequenceNo);
+            ringBuffer.Publish(sequenceNo);
+        }
     }
 
-    private RingBuffer<CalculatorEvent[]> StartDisruptor()
+    public void WriteMetrics()
     {
-        var disruptor = new Disruptor<CalculatorEvent[]>(() => Enumerable.Range(0, MaxCommandsCount)
-            .Select(x => new CalculatorEvent())
-            .ToArray(), RingBufferSize);
+        if (ringBuffer == null)
+            throw new InvalidOperationException("AsyncCalculator.Start() must be called");
+        if (sequenceBarrier == null)
+            throw new InvalidOperationException("AsyncCalculator.Execute(...) must be called");
 
-        disruptor
-            .HandleEventsWithWorkerPool(new TheadSleepHandler())
-            .ThenHandleEventsWithWorkerPool(new CalculatorEventHandler());
+        while (ringBuffer.Cursor != sequenceBarrier.Cursor)
+        {
+            Thread.Sleep(200);
+        }
+
+        Console.Out.WriteAsync(metricsBuilder);
+    }
+
+    private RingBuffer<CalculatorEvent> StartDisruptor()
+    {
+        var disruptor = new Disruptor<CalculatorEvent>(() => new CalculatorEvent(), RingBufferSize);
+
+        sequenceBarrier = disruptor
+            .HandleEventsWithWorkerPool(new ThreadSleepHandler())
+            .ThenHandleEventsWithWorkerPool(new CalculatorEventHandlerMetricsDecorator(
+                new CalculatorEventProcessingHandler(),
+                metricsBuilder
+            ))
+            .AsSequenceBarrier();
+
         return disruptor.Start();
     }
 }

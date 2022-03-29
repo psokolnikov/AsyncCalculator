@@ -8,6 +8,4 @@ var calculatorArgs = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
 calculator.Execute(calculatorArgs);
 
-Console.ReadKey();
-
-
+calculator.WriteMetrics();

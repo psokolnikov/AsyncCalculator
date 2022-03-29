@@ -21,5 +21,4 @@ public class CalculatorEventProcessingStrategy
 
         return ("Success", result.ToString(CultureInfo.InvariantCulture));
     }
-
 }

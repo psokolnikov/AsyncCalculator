@@ -1,4 +1,4 @@
-namespace AsyncCalculator.Parsers.CalculatorOperationTypes;
+namespace AsyncCalculator.CalculatorOperationTypes;
 
 public abstract record CalculatorOperationType
 {

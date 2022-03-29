@@ -1,6 +1,4 @@
-using AsyncCalculator.Events;
-
-namespace AsyncCalculator.Parsers.CalculatorOperationTypes;
+namespace AsyncCalculator.CalculatorOperationTypes;
 
 public record DiffCalculatorOperationType : CalculatorOperationType
 {
