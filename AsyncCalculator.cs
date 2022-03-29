@@ -8,7 +8,7 @@ namespace AsyncCalculator;
 
 public class AsyncCalculator
 {
-    private const int MaxCommandsCount = 3;
+    private const int MaxArgumentsCount = 3;
     private const int RingBufferSize = 16;
 
     private readonly StringBuilder metricsBuilder = new();
@@ -20,14 +20,14 @@ public class AsyncCalculator
         ringBuffer = StartDisruptor();
     }
 
-    public void Execute(string[] arguments)
+    public void Calculate(string[] arguments)
     {
         if (ringBuffer == null)
             throw new InvalidOperationException("AsyncCalculator.Start() must be called");
 
-        if (arguments.Length > MaxCommandsCount)
+        if (arguments.Length > MaxArgumentsCount)
         {
-            Console.Out.WriteLineAsync($"Can't process more than {MaxCommandsCount} arguments");
+            Console.Out.WriteLineAsync($"Can't process more than {MaxArgumentsCount} arguments");
             return;
         }
 
@@ -45,7 +45,7 @@ public class AsyncCalculator
         }
     }
 
-    public void AwaitEventsProcessing()
+    public void AwaitCalculationResult()
     {
         if (ringBuffer == null)
             throw new InvalidOperationException("AsyncCalculator.Start() must be called");

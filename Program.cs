@@ -6,8 +6,8 @@ calculator.Start();
 
 var calculatorArgs = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
-calculator.Execute(calculatorArgs);
+calculator.Calculate(calculatorArgs);
 
-calculator.AwaitEventsProcessing();
+calculator.AwaitCalculationResult();
 
 calculator.WriteMetrics();

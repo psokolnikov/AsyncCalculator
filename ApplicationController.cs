@@ -11,8 +11,6 @@ public static class ApplicationController
         RegisterCalculatorEventParser();
     }
 
-    public static DateTime CurrentDateTimeUtc => DateTime.UtcNow;
-
     public static CalculatorOperationTypesComponent CalculatorOperationTypesComponent { get; private set; } = null!;
 
     public static CalculatorEventParser CalculatorEventParser { get; private set; } = null!;
