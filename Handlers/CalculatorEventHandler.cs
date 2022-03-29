@@ -7,8 +7,8 @@ namespace AsyncCalculator.Handlers;
 
 public class CalculatorEventHandler : IWorkHandler<CalculatorEvent[]>
 {
-    private static readonly string ResultTemplate = "Operation Id: {0}, Code: {1}, Result: {2}";
-    private static readonly string MetricsTemplate = "Operation Id: {0}, ProcessingTime: {1}ms, TotalTime: {2}ms";
+    private const string ResultTemplate = "Operation Id: {0}, Code: {1}, Result: {2}";
+    private const string MetricsTemplate = "Operation Id: {0}, ProcessingTime: {1}ms, TotalTime: {2}ms";
 
     private readonly CalculatorEventProcessingStrategy EventProcessingStrategy = new();
 

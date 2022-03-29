@@ -5,17 +5,17 @@ namespace AsyncCalculator;
 
 public static class ApplicationController
 {
-    public static DateTime CurrentDateTimeUtc => DateTime.UtcNow;
-
-    public static CalculatorOperationTypesComponent? CalculatorOperationTypesComponent { get; private set; }
-
-    public static CalculatorEventsParser? CalculatorEventsParser { get; private set; }
-
-    public static void Init()
+    static ApplicationController()
     {
         RegisterCalculatorOperationTypesComponent();
         RegisterCalculatorEventsParser();
     }
+
+    public static DateTime CurrentDateTimeUtc => DateTime.UtcNow;
+
+    public static CalculatorOperationTypesComponent CalculatorOperationTypesComponent { get; private set; } = null!;
+
+    public static CalculatorEventsParser CalculatorEventsParser { get; private set; } = null!;
 
     private static void RegisterCalculatorOperationTypesComponent()
     {

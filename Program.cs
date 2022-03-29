@@ -1,7 +1,4 @@
-﻿using AsyncCalculator;
-using Calculator = AsyncCalculator.AsyncCalculator;
-
-ApplicationController.Init();
+﻿using Calculator = AsyncCalculator.AsyncCalculator;
 
 var calculator = new Calculator();
 
