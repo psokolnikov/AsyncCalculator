@@ -8,14 +8,14 @@ graph TD;
 
   AsyncCalculator-->MetricsBuilder
 
-subgraph DisruptorDomain
+subgraph DisruptorSubdomain
     Disruptor-->CalculatorEvent;
     Disruptor-->CalculatorEventHandlerMetricsDecorator;
       CalculatorEventHandlerMetricsDecorator-->ThreadSleepHandler;
       CalculatorEventHandlerMetricsDecorator-->CalculatorEventProcessingHandler-->CalculatorEventProcessingStrategy;
 end
 
-subgraph ApplicationControllerDomain
+subgraph ApplicationControllerSubdomain
     ApplicationController-->CalculatorOperationTypesComponent;
         CalculatorOperationTypesComponent-->SumCalculatorOperationType;
         CalculatorOperationTypesComponent-->DiffCalculatorOperationType;
