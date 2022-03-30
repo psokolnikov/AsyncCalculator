@@ -23,6 +23,6 @@ public class CalculatorEventHandlerMetricsDecorator : IWorkHandler<CalculatorEve
 
         var handlerName = origin.GetType().Name;
         var processingTime = TimeMeasurer.GetTimeInMilliseconds(() => origin.OnEvent(evt));
-        metricsBuilder.AddMetric(evt.OperationId.Value, handlerName, processingTime);
+        metricsBuilder.AppendMetric(evt.OperationId.Value, handlerName, processingTime);
     }
 }

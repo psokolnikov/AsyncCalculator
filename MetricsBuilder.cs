@@ -8,7 +8,7 @@ public class MetricsBuilder
 
     private readonly StringBuilder builder = new StringBuilder("Calculation time metrics:").AppendLine();
 
-    public void AddMetric(int operationId, string handlerName, long totalMilliseconds)
+    public void AppendMetric(int operationId, string handlerName, long totalMilliseconds)
     {
         builder.AppendFormat(MetricsTemplate, operationId, handlerName, totalMilliseconds).AppendLine();
     }
