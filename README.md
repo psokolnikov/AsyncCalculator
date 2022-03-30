@@ -33,7 +33,7 @@ CalculatorEventParser-->CalculatorEvent;
 Using the command line, it is possible to specify three arguments.
 
 Input example:
-```Shell
+```PowerShell
 ./AsyncCalculator.exe "1,Sum,5,3" "2,Diff,5,3" "3,Mult,5,3"
 ```
 - The first value is the operation ID.
@@ -41,7 +41,7 @@ Input example:
 - The third and fourth values are the operation arguments.
 
 Output example:
-```Shell
+```PowerShell
 Operation Id: 1, Code: Success, Result: 8
 Operation Id: 2, Code: Success, Result: 2
 Operation Id: 3, Code: OperationNotFound, Result:
