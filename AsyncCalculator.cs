@@ -1,4 +1,3 @@
-using System.Text;
 using AsyncCalculator.Events;
 using AsyncCalculator.Handlers;
 using Disruptor;
@@ -45,7 +44,7 @@ public class AsyncCalculator
         }
     }
 
-    public void AwaitCalculationResult()
+    public void AwaitCalculationResults()
     {
         if (ringBuffer == null)
             throw new InvalidOperationException("AsyncCalculator.Start() must be called");
