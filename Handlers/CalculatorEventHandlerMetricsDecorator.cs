@@ -12,7 +12,7 @@ public class CalculatorEventHandlerMetricsDecorator : IWorkHandler<CalculatorEve
     private readonly IWorkHandler<CalculatorEvent> origin;
     private readonly StringBuilder metricsBuilder;
 
-    public CalculatorEventHandlerMetricsDecorator(IWorkHandler<CalculatorEvent> origin, StringBuilder metricsBuilder)
+    public CalculatorEventHandlerMetricsDecorator(IWorkHandler<CalculatorEvent> origin, MetricsBuilder metricsBuilder)
     {
         this.origin = origin;
         this.metricsBuilder = metricsBuilder;
