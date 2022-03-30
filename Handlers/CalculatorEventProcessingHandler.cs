@@ -10,17 +10,17 @@ public class CalculatorEventProcessingHandler : IWorkHandler<CalculatorEvent>
 
     private readonly CalculatorEventProcessingStrategy EventProcessingStrategy = new();
 
-    public void OnEvent(CalculatorEvent calculatorEvent)
+    public void OnEvent(CalculatorEvent evt)
     {
-        if (calculatorEvent.OperationId == null)
+        if (evt.OperationId == null)
             return;
 
-        var resultBuilder = new StringBuilder();
+        var (code, result) = EventProcessingStrategy.Process(evt);
 
-        var (code, result) = EventProcessingStrategy.Process(calculatorEvent);
+        var outputStringBuilder = new StringBuilder()
+            .AppendFormat(ResultTemplate, evt.OperationId, code, result)
+            .AppendLine();
 
-        resultBuilder.AppendFormat(ResultTemplate, calculatorEvent.OperationId, code, result).AppendLine();
-
-        Console.Out.WriteAsync(resultBuilder);
+        Console.Out.WriteAsync(outputStringBuilder);
     }
 }
