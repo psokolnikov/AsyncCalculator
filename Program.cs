@@ -10,4 +10,4 @@ calculator.Calculate(calculatorArgs);
 
 calculator.AwaitCalculationResults();
 
-calculator.WriteMetrics();
+calculator.WriteMetricsAsync();

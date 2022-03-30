@@ -7,10 +7,8 @@ namespace AsyncCalculator.Handlers;
 
 public class CalculatorEventHandlerMetricsDecorator : IWorkHandler<CalculatorEvent>
 {
-    private const string MetricsTemplate = "Operation Id: {0}, Handler: {1}, ProcessingTime: {2}ms";
-
     private readonly IWorkHandler<CalculatorEvent> origin;
-    private readonly StringBuilder metricsBuilder;
+    private readonly MetricsBuilder metricsBuilder;
 
     public CalculatorEventHandlerMetricsDecorator(IWorkHandler<CalculatorEvent> origin, MetricsBuilder metricsBuilder)
     {
@@ -25,6 +23,6 @@ public class CalculatorEventHandlerMetricsDecorator : IWorkHandler<CalculatorEve
 
         var handlerName = origin.GetType().Name;
         var processingTime = TimeMeasurer.GetTimeInMilliseconds(() => origin.OnEvent(evt));
-        metricsBuilder.AppendFormat(MetricsTemplate, evt.OperationId, handlerName, processingTime).AppendLine();
+        metricsBuilder.AddMetric(evt.OperationId.Value, handlerName, processingTime);
     }
 }

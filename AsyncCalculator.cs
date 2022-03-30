@@ -57,10 +57,7 @@ public class AsyncCalculator
         }
     }
 
-    public void WriteMetrics()
-    {
-        Console.Out.WriteAsync(metricsBuilder);
-    }
+    public void WriteMetricsAsync() => metricsBuilder.WriteMetricsAsync();
 
     private RingBuffer<CalculatorEvent> StartDisruptor()
     {
