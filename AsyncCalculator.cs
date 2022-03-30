@@ -11,7 +11,7 @@ public class AsyncCalculator
     private const int MaxArgumentsCount = 3;
     private const int RingBufferSize = 16;
 
-    private readonly StringBuilder metricsBuilder = new();
+    private readonly StringBuilder metricsBuilder = new StringBuilder("Calculation time metrics:").AppendLine();
     private RingBuffer<CalculatorEvent>? ringBuffer;
     private ISequenceBarrier? sequenceBarrier;
 
